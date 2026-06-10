@@ -16,7 +16,7 @@ private:
    int points;
    Position dimensions;
 public:
-   BirdStorage(double radius, int points, Position dimensions)
+   BirdStorage(double radius, int points, const Position& dimensions)
       : pt(Position(0.0, 0.0)), v(Velocity(0.0, 0.0)),
       radius(radius), points(points), dimensions(dimensions),
       dead(false) {

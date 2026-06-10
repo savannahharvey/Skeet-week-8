@@ -8,8 +8,19 @@
  ************************************************************************/
 
 #pragma once
+
+#include <cassert>  // for assert
 #include "position.h"
 #include "BirdStorage.h"
+
+// helper function for calculating starting y position for birds
+inline double randomFloat(double min, double max)
+{
+	assert(min <= max);
+	double num = min + ((double)rand() / (double)RAND_MAX * (max - min));
+	assert(min <= num && num <= max);
+	return num;
+}
 
  /**********************
   * BIRD LOGIC
@@ -22,17 +33,34 @@ protected:
 
 public:
 	BirdLogic(double radius, int points, const Position& dimensions) : birdStorage(radius, points, dimensions) {}
-	~BirdLogic() = 0 {}
+	// made virtual to prevent memory leaks from derived children
+	virtual ~BirdLogic() {}
 
-	bool isOutOfBounds() const
+	// added getters for Interface (to minimize changing how Skeet currently works)
+	const Position& getPosition() const  { return birdStorage.getPosition(); }  // for collision checking 
+	const Velocity& getVelocity() const  { return birdStorage.getVelocity(); }  // for minimumDistance() in Skeet collision checking
+	double getRadius()            const  { return birdStorage.getRadius();   }  // for collision checking
+	int getPoints()               const  { return birdStorage.getPoints(); }    // for updating score and points spawning
+	bool isDead()                 const  { return birdStorage.isDead();      }  // to know whether to remove bird
+	bool isOutOfBounds()          const
 	{
-		return (pt.getX() < -radius || pt.getX() >= dimensions.getX() + radius ||
-			pt.getY() < -radius || pt.getY() >= dimensions.getY() + radius);
+		return (getPosition().getX() < -getRadius() || getPosition().getX() >= birdStorage.getDimensions().getX() + getRadius() ||
+			     getPosition().getY() < -getRadius() || getPosition().getY() >= birdStorage.getDimensions().getY() + getRadius());
 	}
 
-	virtual void advance() = 0 {}
+	void setPoints(int points) { birdStorage.setPoints(points); }               // for zeroing out birds that we have already used the points of
+	void kill() { birdStorage.kill(); }
+	virtual void advance() = 0;
 };
 
+// BirdLogic and its children do not have direct access to manipulate the values of the bird. Its
+// derived classes must be changed to utilize birdStorage's GETTERS and SETTERS anytime it needs to 
+// retrieve or manipulate bird's values. These should also be in a .cpp file. 
+
+//               |
+//               V
+
+// StandardLogic is done as an example, but the other derived classes must be updated to use birdStorage's methods.
 
 /*********************************************
  * STANDARD LOGIC
@@ -41,23 +69,45 @@ public:
 class StandardLogic : public BirdLogic
 {
 public:
-	StandardLogic(double radius, int points, const Position& dimensions) : birdStorage(radius, points, dimensions) {}
+	// changed to use BirdLogic's (its parent's) constructor as it properly sets up the BirdStorage object
+	StandardLogic(double radius, double speed, int points, const Position& dimensions) : BirdLogic(radius, points, dimensions) 
+	{
+		double randomY = randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75);
+		Position initialPos = Position(0.0, randomY);
+		// set initial starting position for StandardBird
+		birdStorage.setPosition(initialPos);
+
+		double randomDX = randomFloat(speed - 0.5, speed + 0.5);
+		double randomDY = randomFloat(-speed / 5.0, speed / 5.0);
+		Velocity initialVel = Velocity(randomDX, randomDY);
+		// set initial velocity for StandardBird
+		birdStorage.setVelocity(initialVel);
+	}
+
 	virtual void advance()
 	{
 		// small amount of drag
-		v *= 0.995;
+		Velocity newVel = birdStorage.getVelocity();         // now uses getVelocity to retrieve bird's current velocity
+		newVel *= 0.995; 
+		birdStorage.setVelocity(newVel);                     // now uses birdStorage's setVelocity to update bird's velocity
 
 		// inertia
-		pt.add(v);
+		Position newPos = birdStorage.getPosition();         // now gets current position with birdStorage getter
+		newPos.add(newVel);                                  
+		birdStorage.setPosition(newPos);                     // sets bird's position with birdStorage's setPosition setter
 
 		// out of bounds checker
 		if (isOutOfBounds())
 		{
 			kill();
-			points *= -1; // points go negative when it is missed!
+			// points go negative when it is missed!
+			int newPoints = birdStorage.getPoints() * -1;     // gets points with birdStorage's getPoints
+			birdStorage.setPoints(newPoints);                 // updates bird's points with birdStorage's setPoints
 		}
 	}
 };
+
+// NEEDS UPDATING
 
 /*********************************************
  * FLOATER
@@ -87,6 +137,8 @@ public:
 	}
 };
 
+// NEEDS UPDATING
+
 /*********************************************
  * CRAZY
  * A crazy flying object: randomly changes direction
@@ -115,6 +167,8 @@ public:
 		}
 	}
 };
+
+// NEEDS UPDATING 
 
 /*********************************************
  * SINKER

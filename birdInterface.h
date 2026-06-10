@@ -19,18 +19,19 @@
 class BirdInterface
 {
 protected:
-   virtual BirdLogic& getLogic() = 0;
+   BirdLogic* logic;
 
 public:
    void kill() {}
 
    // getters
+   Position getPosition() { return logic->getPosition(); }
    bool isDead() { return getLogic().isDead(); }
    int getPoints() { return getLogic().getPoints(); }
 
    // special functions
+   void advance() { logic->advance(); }
    virtual void draw() = 0;
-   virtual void advance() = 0;
 };
 
 /*********************************************
