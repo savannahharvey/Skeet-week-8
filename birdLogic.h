@@ -177,7 +177,7 @@ public:
 	// changed to use BirdLogic's (its parent's) constructor as it properly sets up the BirdStorage object
 	CrazyLogic(double radius, double speed, int points, const Position& dimensions) : BirdLogic(radius, points, dimensions)
 	{
-		double randomY = randomInt(0, 15);
+		double randomY = (randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
 		Position initialPos = Position(0.0, randomY);
 		// set initial starting position for CrazyBird
 		birdStorage.setPosition(initialPos);
@@ -192,7 +192,7 @@ public:
 	virtual void advance()
 	{
 		// erratic turns eery half a second or so
-		double randomNum = randomFloat(0, 15);
+		double randomNum = randomInt(0, 15);
 		Velocity newVel = birdStorage.getVelocity();         // now uses getVelocity to retrieve bird's current velocity
 		if (randomNum == 0)
 		{
@@ -245,7 +245,7 @@ public:
 	{
 		// gravity
 		Velocity newVel = birdStorage.getVelocity();         // now uses getVelocity to retrieve bird's current velocity
-		newVel *= -0.07;
+		newVel.addDy(- 0.07);
 		birdStorage.setVelocity(newVel);                     // now uses birdStorage's setVelocity to update bird's velocity
 
 		// inertia
