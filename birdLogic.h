@@ -60,7 +60,7 @@ public:
 //               |
 //               V
 
-// StandardLogic is done as an example, but the other derived classes must be updated to use birdStorage's methods.
+// StandardLogic is done as an example, but the other derived classes must be updated to use birdStorage's methods as well.
 
 /*********************************************
  * STANDARD LOGIC

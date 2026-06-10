@@ -1,4 +1,3 @@
-#pragma once
 /***********************************************************************
  * Header File:
  *    BirdInterface : Everything that can be shot
@@ -19,18 +18,26 @@
 class BirdInterface
 {
 protected:
+   // takes a pointer so each derived interface can have its own derived logic 
    BirdLogic* logic;
 
 public:
-   void kill() {}
+   // base BirdLogic just initializes logic attribute
+   BirdInterface(BirdLogic* l) : logic(l) {}
+   virtual ~BirdInterface() { delete logic; } // free logic's memory when BirdInterface or its children are destroyed
+   void kill() { logic->kill(); }
 
    // getters
-   Position getPosition() { return logic->getPosition(); }
-   bool isDead() { return getLogic().isDead(); }
-   int getPoints() { return getLogic().getPoints(); }
+   const Position& getPosition() const { return logic->getPosition(); }
+   const Velocity& getVelocity() const { return logic->getVelocity(); }  
+   double getRadius()            const { return logic->getRadius(); }  
+   bool isDead()                 const { return logic->isDead(); }
+   int getPoints()               const { return logic->getPoints(); }
+
+   void setPoints(int points)          { logic->setPoints(points); }
 
    // special functions
-   void advance() { logic->advance(); }
+   virtual void advance() { logic->advance(); }
    virtual void draw() = 0;
 };
 
@@ -38,12 +45,8 @@ public:
  * STANDARD
  * A standard bird: slows down, flies in a straight line
  *********************************************/
-class Standard : public BirdInterface {
-private:
-   StandardLogic logic;
-
-protected:
-   BirdLogic& getLogic() override { return logic; }
+class Standard : public BirdInterface 
+{
 public:
    Standard(double radius = 25.0, double speed = 5.0, int points = 10);
    void draw();
@@ -54,10 +57,8 @@ public:
  * FLOATER
  * A bird that floats like a balloon: flies up and really slows down
  *********************************************/
-class Floater : public BirdInterface {
-private:
-   FloaterLogic logic;
-
+class Floater : public BirdInterface 
+{
 public:
    Floater(double radius = 30.0, double speed = 5.0, int points = 15);
    void draw();
@@ -68,10 +69,8 @@ public:
  * CRAZY
  * A crazy flying object: randomly changes direction
  *********************************************/
-class Crazy : public BirdInterface {
-private:
-   CrazyLogic logic;
-
+class Crazy : public BirdInterface 
+{
 public:
    Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
    void draw();
@@ -82,10 +81,8 @@ public:
  * SINKER
  * A sinker bird: honors gravity
  *********************************************/
-class Sinker : public BirdInterface {
-private:
-   SinkerLogic logic;
-
+class Sinker : public BirdInterface 
+{
 public:
    Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
    void draw();
