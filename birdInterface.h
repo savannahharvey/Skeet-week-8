@@ -45,46 +45,42 @@ public:
  * STANDARD
  * A standard bird: slows down, flies in a straight line
  *********************************************/
-class Standard : public BirdInterface 
-{
+class StandardInterface : public BirdInterface {
 public:
-   Standard(double radius = 25.0, double speed = 5.0, int points = 10);
+   StandardInterface(double radius = 25.0, double speed = 5.0, int points = 10,
+      const Position& dimensions = Position(0, 0));
    void draw();
-   void advance();
 };
 
 /*********************************************
  * FLOATER
  * A bird that floats like a balloon: flies up and really slows down
  *********************************************/
-class Floater : public BirdInterface 
-{
+class FloaterInterface : public BirdInterface {
 public:
-   Floater(double radius = 30.0, double speed = 5.0, int points = 15);
+   FloaterInterface(double radius = 30.0, double speed = 5.0, int points = 15,
+      const Position& dimensions = Position(0, 0));
    void draw();
-   void advance();
 };
 
 /*********************************************
  * CRAZY
  * A crazy flying object: randomly changes direction
  *********************************************/
-class Crazy : public BirdInterface 
-{
+class CrazyInterface : public BirdInterface {
 public:
-   Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
+   CrazyInterface(double radius = 30.0, double speed = 4.5, int points = 30,
+      const Position& dimensions = Position(0, 0));
    void draw();
-   void advance();
 };
 
 /*********************************************
  * SINKER
  * A sinker bird: honors gravity
  *********************************************/
-class Sinker : public BirdInterface 
-{
+class SinkerInterface : public BirdInterface {
 public:
-   Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
+   SinkerInterface(double radius = 30.0, double speed = 4.5, int points = 20,
+      const Position& dimensions = Position(0, 0));
    void draw();
-   void advance();
 };
