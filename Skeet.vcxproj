@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bird.cpp" />
     <ClCompile Include="birdInterface.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="effect.cpp" />
@@ -37,7 +36,6 @@
     <ClInclude Include="birdLogic.h" />
     <ClInclude Include="birdStorage.h" />
     <ClInclude Include="bullet.h" />
-    <ClInclude Include="bird.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="gun.h" />
     <ClInclude Include="points.h" />

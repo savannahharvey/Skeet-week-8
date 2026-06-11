@@ -11,13 +11,13 @@
 
 #include "position.h"
 #include "uiInteract.h"
-#include "bird.h"
 #include "bullet.h"
 #include "effect.h"
 #include "gun.h"
 #include "time.h"
 #include "score.h"
 #include "points.h"
+#include "birdInterface.h"
 
 #include <list>
 
@@ -53,7 +53,7 @@ private:
     void drawBullseye(double angle) const;
 
     Gun gun;                       // the gun
-    std::list<Bird*> birds;        // all the shootable birds
+    std::list<BirdInterface*> birds;        // all the shootable birds
     std::list<Bullet*> bullets;    // the bullets
     std::list<Effect*> effects;    // the fragments of a dead bird.
     std::list<Points>  points;     // point values;
