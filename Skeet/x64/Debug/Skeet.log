@@ -1,2 +1,11 @@
 ﻿  game.cpp
+  skeet.cpp
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(277,14): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(278,14): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(285,17): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(286,17): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(288,20): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(289,20): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\skeet.cpp(292,30): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+  Generating Code...
   Skeet.vcxproj -> C:\Users\lando\Classes\CSE 331\W8 ver. Codebase\Skeet-week-8\x64\Debug\Skeet.exe

@@ -42,6 +42,9 @@ void Skeet::animate()
    // if status, then do not move the game
    if (time.isStatus())
    {
+      // free memory associated with pointers
+      clear();
+
       // get rid of the bullets and the birds without changing the score
       birds.clear();
       bullets.clear();
@@ -90,6 +93,8 @@ void Skeet::animate()
          if ((*it)->getPoints())
             points.push_back(Points((*it)->getPosition(), (*it)->getPoints()));
          score.adjust((*it)->getPoints());
+
+         delete* it;
          it = birds.erase(it);
       }
       else
@@ -103,6 +108,8 @@ void Skeet::animate()
          int value = -(*it)->getValue();
          points.push_back(Points((*it)->getPosition(), value));
          score.adjust(value);
+
+         delete* it;
          it = bullets.erase(it);
       }
       else
@@ -111,7 +118,10 @@ void Skeet::animate()
    // remove zombie fragments
    for (auto it = effects.begin(); it != effects.end();)
       if ((*it)->isDead())
+      {
+         delete* it;
          it = effects.erase(it);
+      }
       else
          ++it;
 
@@ -485,4 +495,19 @@ void Skeet::spawn()
       default:
          break;
    }
+}
+
+Skeet::~Skeet()
+{
+   clear();
+}
+
+void Skeet::clear()
+{
+   for (auto b : birds)
+      delete b;
+   for (auto b : bullets)
+      delete b;
+   for (auto e : effects)
+      delete e;
 }

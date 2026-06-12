@@ -31,6 +31,11 @@ public:
     Skeet(Position & dimensions) : dimensions(dimensions),
         gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
 
+    ~Skeet();
+
+    // free all memory associated with pointers
+    void clear();
+
     // handle all user input
     void interact(const UserInput& ui);
 
